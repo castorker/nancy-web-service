@@ -10,8 +10,12 @@ namespace WebService
 {
     public class QuibbleModule : NancyModule
     {
+        private QuibbleDataService _service;
+
         public QuibbleModule() : base("/quibbles")
         {
+            _service = new QuibbleDataService();
+
             Get["/"] = arguments => GetQuibbles();
             Get["/{id}"] = arguments => GetQuibbleById(arguments.id);
             Post["/"] = arguments => CreateQuibble();
@@ -21,36 +25,31 @@ namespace WebService
 
         private Quibble[] GetQuibbles()
         {
-            var service = new QuibbleDataService();
-            return service.GetAll();
+            return _service.GetAll();
         }
 
         private Quibble GetQuibbleById(int id)
         {
-            var service = new QuibbleDataService();
-            return service.GetById(id);
+            return _service.GetById(id);
         }
 
         private Quibble CreateQuibble()
         {
             var quibble = this.Bind<Quibble>();
-            var service = new QuibbleDataService();
-            service.Add(quibble);
+            _service.Add(quibble);
             return quibble;
         }
 
         private Quibble UpdateQuibble(int id)
         {
             var quibble = this.Bind<Quibble>();
-            var service = new QuibbleDataService();
-            service.Update(quibble);
+            _service.Update(quibble);
             return quibble;
         }
 
         private HttpStatusCode DeleteQuibble(int id)
         {
-            var service = new QuibbleDataService();
-            service.Delete(id);
+            _service.Delete(id);
             return HttpStatusCode.NoContent;
         }
     }
