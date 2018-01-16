@@ -1,5 +1,6 @@
 ﻿using Data;
 using Nancy;
+using Nancy.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace WebService
         {
             Get["/quibbles"] = arguments => GetQuibbles();
             Get["/quibbles/{id}"] = arguments => GetQuibbleById(arguments.id);
+            Post["/quibbles"] = arguments => CreateQuibble();
         }
 
         private Quibble[] GetQuibbles()
@@ -25,6 +27,14 @@ namespace WebService
         {
             var service = new QuibbleDataService();
             return service.GetById(id);
+        }
+
+        private Quibble CreateQuibble()
+        {
+            var quibble = this.Bind<Quibble>();
+            var service = new QuibbleDataService();
+            service.Add(quibble);
+            return quibble;
         }
     }
 }
