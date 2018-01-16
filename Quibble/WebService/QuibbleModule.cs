@@ -16,6 +16,7 @@ namespace WebService
             Get["/{id}"] = arguments => GetQuibbleById(arguments.id);
             Post["/"] = arguments => CreateQuibble();
             Put["/{id}"] = arguments => UpdateQuibble(arguments.id);
+            Delete["/{id}"] = arguments => DeleteQuibble(arguments.id);
         }
 
         private Quibble[] GetQuibbles()
@@ -44,6 +45,13 @@ namespace WebService
             var service = new QuibbleDataService();
             service.Update(quibble);
             return quibble;
+        }
+
+        private HttpStatusCode DeleteQuibble(int id)
+        {
+            var service = new QuibbleDataService();
+            service.Delete(id);
+            return HttpStatusCode.NoContent;
         }
     }
 }
