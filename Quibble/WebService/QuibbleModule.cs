@@ -10,11 +10,11 @@ namespace WebService
 {
     public class QuibbleModule : NancyModule
     {
-        public QuibbleModule()
+        public QuibbleModule() : base("/quibbles")
         {
-            Get["/quibbles"] = arguments => GetQuibbles();
-            Get["/quibbles/{id}"] = arguments => GetQuibbleById(arguments.id);
-            Post["/quibbles"] = arguments => CreateQuibble();
+            Get["/"] = arguments => GetQuibbles();
+            Get["/{id}"] = arguments => GetQuibbleById(arguments.id);
+            Post["/"] = arguments => CreateQuibble();
         }
 
         private Quibble[] GetQuibbles()
